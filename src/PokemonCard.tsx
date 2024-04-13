@@ -87,6 +87,7 @@ export function PokemonCard({ pokemonId }: { readonly pokemonId: number }) {
       </Flex>
 
       <Link
+        target="_blank"
         href={`https://bulbapedia.bulbagarden.net/wiki/${capitalize(
           pokemon!.name,
         )}_(Pok%C3%A9mon)`}

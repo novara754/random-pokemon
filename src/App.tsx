@@ -1,5 +1,6 @@
 import { Button, Container, Flex } from "@radix-ui/themes";
 import { useState } from "react";
+import Disclaimer from "./Disclaimer";
 import { PokemonCard } from "./PokemonCard";
 
 const NUM_POKEMON = 1_025;
@@ -25,6 +26,8 @@ export default function App() {
         <Button size="3" onClick={() => setPokemonId(getRandomId())}>
           Random Pokémon
         </Button>
+
+        <Disclaimer />
       </Flex>
     </Container>
   );
