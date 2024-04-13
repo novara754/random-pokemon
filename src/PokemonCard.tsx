@@ -53,7 +53,7 @@ export function PokemonCard({ pokemonId }: { readonly pokemonId: number }) {
 
       setPokemon({
         id: data.id,
-        name: data.name,
+        name: data.species.name,
         spriteUrl: data.sprites.other["official-artwork"].front_default,
         types: data.types.map(
           (type: { type: { name: string } }) => type.type.name as PokemonType,
@@ -88,13 +88,11 @@ export function PokemonCard({ pokemonId }: { readonly pokemonId: number }) {
 
       <Link
         target="_blank"
-        href={`https://bulbapedia.bulbagarden.net/wiki/${capitalize(
-          pokemon!.name,
-        )}_(Pok%C3%A9mon)`}
+        href={`https://pokemondb.net/pokedex/${pokemon!.name}`}
         color="ruby"
         mt="5"
       >
-        View on Bulbapedia
+        View on Pokémon Database
       </Link>
     </>
   );
