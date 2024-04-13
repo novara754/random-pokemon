@@ -1,0 +1,42 @@
+{
+  "root": true,
+  "env": { "browser": true, "es2020": true },
+  "extends": [
+    "neon/common",
+    "neon/browser",
+    "neon/node",
+    "neon/typescript",
+    "neon/react",
+    "neon/edge",
+    "neon/prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": [
+    "**/dist/*",
+    "**/.next/*"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".tsx"
+        ]
+      }
+    ],
+    "comma-dangle": [ "error", "always-multiline" ],
+    "id-length": "off",
+    "typescript-sort-keys/interface": "off",
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": "off",
+    "unicorn/consistent-function-scoping": "off"
+  }
+}
