@@ -49,7 +49,8 @@ export type RadixColor =
 
 export type Pokemon = {
   id: number;
-  name: string;
+  internalName: string;
+  englishName: string;
   spriteUrl: string;
   types: PokemonType[];
 };

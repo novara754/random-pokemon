@@ -10,10 +10,6 @@ import {
 import { useEffect, useState } from "react";
 import type { Pokemon, PokemonType, RadixColor } from "./defs";
 
-function capitalize(str: string): string {
-  return str[0].toUpperCase() + str.slice(1);
-}
-
 function getColorForType(type: PokemonType): RadixColor {
   const map: Record<PokemonType, RadixColor> = {
     normal: "bronze",
@@ -46,16 +42,26 @@ export function PokemonCard({ pokemonId }: { readonly pokemonId: number }) {
     const fetchPokemon = async () => {
       setPokemon(null);
 
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${pokemonId}`,
-      );
-      const data = await response.json();
+      const [pokemonResponse, speciesResponse] = await Promise.all([
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`),
+        fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`),
+      ]);
+
+      const [pokemonData, speciesData] = await Promise.all([
+        pokemonResponse.json(),
+        speciesResponse.json(),
+      ]);
+
+      const englishName = speciesData.names.find(
+        (name: { language: { name: string } }) => name.language.name === "en",
+      ).name;
 
       setPokemon({
-        id: data.id,
-        name: data.species.name,
-        spriteUrl: data.sprites.other["official-artwork"].front_default,
-        types: data.types.map(
+        id: pokemonData.id,
+        internalName: pokemonData.name,
+        englishName,
+        spriteUrl: pokemonData.sprites.other["official-artwork"].front_default,
+        types: pokemonData.types.map(
           (type: { type: { name: string } }) => type.type.name as PokemonType,
         ),
       });
@@ -70,10 +76,10 @@ export function PokemonCard({ pokemonId }: { readonly pokemonId: number }) {
         width="256px"
         height="256px"
         src={pokemon!.spriteUrl}
-        alt={pokemon!.name}
+        alt={pokemon!.englishName}
       />
 
-      <Heading>{capitalize(pokemon!.name)}</Heading>
+      <Heading>{pokemon!.englishName}</Heading>
       <Heading size="2" color="gray">
         #{pokemon!.id.toString().padStart(4, "0")}
       </Heading>
@@ -88,7 +94,7 @@ export function PokemonCard({ pokemonId }: { readonly pokemonId: number }) {
 
       <Link
         target="_blank"
-        href={`https://pokemondb.net/pokedex/${pokemon!.name}`}
+        href={`https://pokemondb.net/pokedex/${pokemon!.internalName}`}
         color="ruby"
         mt="5"
       >
